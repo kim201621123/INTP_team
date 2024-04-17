@@ -57,6 +57,7 @@
             padding: 20px;
             box-shadow: 0px 0px 3px 0px blue;
             border-radius: 5px;
+            display: none;
         }
 
         .mybtn {
@@ -86,12 +87,13 @@
 
         // Firebase 구성 정보 설정
         const firebaseConfig = {
-            apiKey: "AIzaSyBJs_vtHzWRouy16fhfjJA2qAvWtAaJ6gk",
-            authDomain: "sparta-d8d6c.firebaseapp.com",
-            projectId: "sparta-d8d6c",
-            storageBucket: "sparta-d8d6c.appspot.com",
-            messagingSenderId: "230382481375",
-            appId: "1:230382481375:web:40ef947ccfb472da635e6a"
+            apiKey: "AIzaSyBd95g4iHz1a716isz96TeWfCazwjthtYQ",
+            authDomain: "sparta-43eda.firebaseapp.com",
+            projectId: "sparta-43eda",
+            storageBucket: "sparta-43eda.appspot.com",
+            messagingSenderId: "519426988653",
+            appId: "1:519426988653:web:cf2a402befcec8ab597d64",
+            measurementId: "G-WMBSTF2Q37"
         };
 
 
@@ -99,17 +101,30 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+
+        $("#savebtn").click(async function () {
+            $('#postingbox').toggle();
+
+        })
+
         $("#postingbtn").click(async function () {
-            let image = $('#image').val();
-            let title = $('#title').val();
-            let content = $('#content').val();
-            let date = $('#date').val();
+            let pic0 = $('#pic0').val();
+            let advan0 = $('#advan0').val();
+            let infor0 = $('#infor0').val();
+            let point0 = $('#point0').val();
+            let pro0 = $('#pro0').val();
+            let blog0 = $('#blog0').val();
+            let mbti0 = $('#mbti0').val();
+
 
             let doc = {
-                'image': image,
-                'title': title,
-                'content': content,
-                'date': date
+                'z': pic0,
+                'a': advan0,
+                'b': infor0,
+                'c': point0,
+                'd': pro0,
+                'e': blog0,
+                'mbti': mbti0
             };
 
             await addDoc(collection(db, "albums"), doc);
@@ -121,22 +136,26 @@
             const querySnapshot = await getDocs(collection(db, "albums"));
             querySnapshot.forEach((doc) => {
                 let row = doc.data();
-                let image = row['image'];
-                let title = row['title'];
-                let content = row['content'];
-                let date = row['date'];
+                let pic0 = row['z'];
+                let advan0 = row['a'];
+                let infor0 = row['b'];
+                let point0 = row['c'];
+                let pro0 = row['d'];
+                let blog0 = row['e'];
+                let mbti0 = row['mbti'];
+
                 let albumId = doc.id; // 파이어베이스 문서 ID
 
                 let temp_html = `
                 <div class="col">
                     <div class="card h-100" onclick="detailAlbum('${albumId}')">
-                        <img src="${image}" class="card-img-top" alt="...">
+                        <img src="${pic0}" class="card-img-top" alt="...">
                         <div class="card-body">
-                            <h5 class="card-title">${title}</h5>
-                            <p class="card-text">${content}</p>
+                            <h5 class="card-title">${infor0}</h5>
+                            <p class="card-text">${blog0}</p>
                         </div>
                         <div class="card-footer">
-                            <small class="text-body-secondary">${date}</small>
+                            <small class="text-body-secondary">${mbti0}</small>
                         </div>
                     </div>
                 </div>`;
@@ -157,24 +176,37 @@
 <body>
     <div class="mytitle">
         <h1>나만의 추억앨범</h1>
+        <button id="savebtn">등록하기</button>
 
     </div>
     <div class="mypostingbox" id="postingbox">
         <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="image" placeholder="앨범 이미지">
-            <label for="floatingInput">앨범 이미지</label>
+            <input type="email" class="form-control" id="pic0" placeholder="사진">
+            <label for="floatingInput">사진 주소</label>
         </div>
         <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="title" placeholder="앨범 제목">
-            <label for="floatingInput">앨범 제목</label>
+            <input type="email" class="form-control" id="advan0" placeholder="이름">
+            <label for="floatingInput">이름</label>
         </div>
         <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="content" placeholder="앨범 내용">
-            <label for="floatingInput">앨범 내용</label>
+            <input type="email" class="form-control" id="infor0" placeholder="자신의 협업 스타일 소개">
+            <label for="floatingInput">자신의 협업 스타일 소개</label>
         </div>
         <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="date" placeholder="앨범 날짜">
-            <label for="floatingInput">앨범 날짜</label>
+            <input type="email" class="form-control" id="point0" placeholder="특징과 추구하는 궁극적인 목표">
+            <label for="floatingInput">특징과 추구하는 궁극적인 목표</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="pro0" placeholder="우리 팀과의 약속">
+            <label for="floatingInput">우리 팀과의 약속</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="blog0" placeholder="블로그 주소">
+            <label for="floatingInput">블로그 주소</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="mbti0" placeholder="MBTI">
+            <label for="floatingInput">MBTI</label>
         </div>
 
         <div class="mybtn">
@@ -185,7 +217,7 @@
 
 
     <div class="mycards">
-        <div id="card" class="row row-cols-1 row-cols-md-4 g-4">
+        <div id="card" class="row row-cols-1 row-cols-md-5 g-4">
 
         </div>
     </div>
