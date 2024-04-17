@@ -164,22 +164,22 @@ $("#saveBtn").click(async function () {
 
 });
 
-        $("#deleteConfirmBtn").click(function () {
-            console.log(albumId);
+$("#deleteConfirmBtn").click(function () {
+    console.log(albumId);
 
-            const isDelete = confirm("정말로 삭제하시겠습니까?")
-            if (isDelete) {
-                const documentRef = doc(db, "albums", albumId);
-                deleteDoc(documentRef);
-                alert("문서 삭제가 완료되었습니다.");
-                //여기서 원래 페이지로 이동되는데 문서가 삭제되지 않음
-                //location.href = `index.html`;
+    const isDelete = confirm("정말로 삭제하시겠습니까?");
+    if (isDelete) {
+        const documentRef = doc(db, "albums", albumId);
+        deleteDoc(documentRef).then(() => {  
+        //then을 추가하여 삭제가 완료된 후 이동하게 함
+            alert("문서 삭제가 완료되었습니다.");
+            location.href = 'index.html';
+        })
+    } else {
+        alert("문서 삭제가 취소되었습니다.");
+    }
+});
 
-            }
-            else {
-                alert("문서 삭제가 취소되었습니다.");
-            }
-        });
 
     </script>
     <title>한잔해</title>
