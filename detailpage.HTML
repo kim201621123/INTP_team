@@ -23,7 +23,6 @@
         .image {
             width: 360px;
             height: 300px;
-            background-image: url(https://img.freepik.com/free-photo/fresh-cocktails-with-ice-lemon-lime-fruits-generative-ai_188544-12370.jpg?size=626&ext=jpg&ga=GA1.1.1224184972.1712102400&semt=sph);
             background-size: cover;
             background-repeat: no-repeat;
             margin-right: 50px;
@@ -89,12 +88,13 @@
 
         // Firebase 구성 정보 설정
         const firebaseConfig = {
-            apiKey: "AIzaSyBJs_vtHzWRouy16fhfjJA2qAvWtAaJ6gk",
-            authDomain: "sparta-d8d6c.firebaseapp.com",
-            projectId: "sparta-d8d6c",
-            storageBucket: "sparta-d8d6c.appspot.com",
-            messagingSenderId: "230382481375",
-            appId: "1:230382481375:web:40ef947ccfb472da635e6a"
+            apiKey: "AIzaSyBd95g4iHz1a716isz96TeWfCazwjthtYQ",
+            authDomain: "sparta-43eda.firebaseapp.com",
+            projectId: "sparta-43eda",
+            storageBucket: "sparta-43eda.appspot.com",
+            messagingSenderId: "519426988653",
+            appId: "1:519426988653:web:cf2a402befcec8ab597d64",
+            measurementId: "G-WMBSTF2Q37"
         };
 
 
@@ -104,13 +104,14 @@
 
         const AlbumURL = new URLSearchParams(window.location.search);
         const albumId = AlbumURL.get('albumId');
-        let docs = await getDocs(collection(db, "test"));
+        let docs = await getDocs(collection(db, "albums"));
 
         docs.forEach((doc) => {
             let row = doc.data();
             let AlbumDetailId = doc.id;
 
             if (AlbumDetailId == albumId) {
+                let pic0 = row['z'];
                 let advan0 = row['a'];
                 let infor0 = row['b'];
                 let point0 = row['c'];
@@ -118,13 +119,15 @@
                 let blog0 = row['e'];
                 let mbti0 = row['mbti'];
 
+                $('#pic0').val(pic0);
+                $('#advan0').val(advan0);
+                $('#infor0').val(infor0);
+                $('#point0').val(point0);
+                $('#pro0').val(pro0);
+                $('#blog0').val(blog0);
+                $('#mbti0').val(mbti0);
 
-                $('#advan').val(advan0);
-                $('#infor').val(infor0);
-                $('#point').val(point0);
-                $('#pro').val(pro0);
-                $('#blog').val(blog0);
-                $('#mbti').val(mbti0);
+                $('.image').css('background-image', `url(${pic0})`);
             }
         })
 
@@ -140,15 +143,17 @@
 $("#saveBtn").click(async function () {
     let docId = albumId;
 
-    let advanValue = $('#advan').val();
-    let inforValue = $('#infor').val();
-    let pointValue = $('#point').val();
-    let proValue = $('#pro').val();
-    let blogValue = $('#blog').val();
-    let mbtiValue = $('#mbti').val();
+    let picValue = $('#pic0').val();
+    let advanValue = $('#advan0').val();
+    let inforValue = $('#infor0').val();
+    let pointValue = $('#point0').val();
+    let proValue = $('#pro0').val();
+    let blogValue = $('#blog0').val();
+    let mbtiValue = $('#mbti0').val();
 
 
-        await updateDoc(doc(db, "test", docId), {
+        await updateDoc(doc(db, "albums", docId), {
+            z: picValue,
             a: advanValue, 
             b: inforValue, 
             c: pointValue,
@@ -194,17 +199,18 @@ $("#deleteConfirmBtn").click(function () {
     <div class="container">
         <div class="image" style="height: 410px;">
             <div class="input-container2" style="margin-top: 430px;">
-                <textarea id="mbti" style="width: 357.818182px;" name="opinion" cols="45" rows="4"
+                <textarea id="mbti0" style="width: 357.818182px;" name="opinion" cols="45" rows="4"
                     placeholder="팀과 자신에 대한 설명 및 MBTI"></textarea><br>
 
             </div>
         </div>
         <div class="input-container">
-            <textarea id="advan" name="opinion" cols="80" rows="4" placeholder="객관적으로 살펴본 자신의 장점"></textarea><br>
-            <textarea id="infor" name="opinion" cols="80" rows="4" placeholder="자신의 스타일 협업 스타일 소개"></textarea><br>
-            <textarea id="point" name="opinion" cols="80" rows="4" placeholder="우리 팀만의 특징과 추구하는 궁극적인 목표"></textarea><br>
-            <textarea id="pro" name="opinion" cols="80" rows="4" placeholder="우리 팀만의 약속"></textarea><br>
-            <textarea id="blog" name="opinion" cols="80" rows="4" placeholder="팀원들의 블로그 주소"></textarea><br>
+            <textarea id="pic0" name="opinion" cols="80" rows="4" placeholder="사진 주소"></textarea><br>
+            <textarea id="advan0" name="opinion" cols="80" rows="4" placeholder="이름"></textarea><br>
+            <textarea id="infor0" name="opinion" cols="80" rows="4" placeholder="자신의 협업 스타일 소개"></textarea><br>
+            <textarea id="point0" name="opinion" cols="80" rows="4" placeholder="특징과 추구하는 궁극적인 목표"></textarea><br>
+            <textarea id="pro0" name="opinion" cols="80" rows="4" placeholder="우리 팀과의 약속"></textarea><br>
+            <textarea id="blog0" name="opinion" cols="80" rows="4" placeholder="블로그 주소"></textarea><br>
         </div>
 
 
