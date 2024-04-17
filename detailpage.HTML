@@ -82,10 +82,10 @@
 
         // Firebase SDK 라이브러리 가져오기
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-        import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getFirestore, updateDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-
+        import { doc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
         // Firebase 구성 정보 설정
         const firebaseConfig = {
@@ -128,15 +128,68 @@
             }
         })
 
+        
+
+
+        $("#editBtn").click(function () {
+    $("#saveBtn").show();
+    $(this).hide();
+});
+
+
+$("#saveBtn").click(async function () {
+    let docId = albumId;
+
+    let advanValue = $('#advan').val();
+    let inforValue = $('#infor').val();
+    let pointValue = $('#point').val();
+    let proValue = $('#pro').val();
+    let blogValue = $('#blog').val();
+    let mbtiValue = $('#mbti').val();
+
+
+        await updateDoc(doc(db, "test", docId), {
+            a: advanValue, 
+            b: inforValue, 
+            c: pointValue,
+            d: proValue,
+            e: blogValue,
+            mbti: mbtiValue
+
+            });
+
+        alert("수정 완료!");
+        window.location.reload();
+        
+
+});
+
+$("#deleteConfirmBtn").click(function () {
+    console.log(albumId);
+
+    const isDelete = confirm("정말로 삭제하시겠습니까?");
+    if (isDelete) {
+        const documentRef = doc(db, "albums", albumId);
+        deleteDoc(documentRef).then(() => {  
+        //then을 추가하여 삭제가 완료된 후 이동하게 함
+            alert("문서 삭제가 완료되었습니다.");
+            location.href = 'mainpage.html';
+        })
+    } else {
+        alert("문서 삭제가 취소되었습니다.");
+    }
+});
+
+
     </script>
     <title>한잔해</title>
 </head>
 
 <body>
     <div class="buttons">
-        <button type="button" class="btn btn-primary">저장하기</button>
-        <button type="button" class="btn btn-warning">수정하기</button>
-        <button type="button" class="btn btn-danger">삭제하기</button>
+        <button type="button" class="btn btn-primary" id="saveBtn" style="display: none;">저장하기</button>
+        <button type="button" id="editBtn" class="btn btn-warning">수정하기</button>
+        <button type="button" class="btn btn-danger" id="deleteConfirmBtn">삭제하기</button>
     </div>
     <div class="container">
         <div class="image" style="height: 410px;">
