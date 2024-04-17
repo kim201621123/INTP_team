@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <style>
+        .container {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            padding: 20px;
+            margin-top: 150px;
+            position: relative;
+        }
+
+        .image {
+            width: 360px;
+            height: 300px;
+            background-image: url(https://img.freepik.com/free-photo/fresh-cocktails-with-ice-lemon-lime-fruits-generative-ai_188544-12370.jpg?size=626&ext=jpg&ga=GA1.1.1224184972.1712102400&semt=sph);
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin-right: 50px;
+            margin-bottom: 150px;
+        }
+
+        .input-container {
+            width: 500px;
+            height: auto;
+        }
+
+        .input {
+            width: calc(100% - 16px);
+            height: 40px;
+            padding: 0px 8px;
+            border: 0;
+            box-sizing: border-box;
+            background-color: #eeeeee;
+            color: #030303;
+            font-size: 14px;
+            font-family: "Nanum Gothic", sans-serif;
+            line-height: 19px;
+            outline: none;
+            margin-bottom: 10px;
+            margin-right: 16px;
+        }
+
+        .buttons {
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        /* 새로운 textarea 스타일 */
+        .input-container2 {
+            width: 100px;
+            margin-right: 300px;
+            margin-top: 310px;
+
+        }
+
+        .input-container2 textarea {
+            width: calc(100% - 16px);
+            height: 100px;
+            /* 조정 가능한 높이 */
+            padding: 8px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            font-family: "Nanum Gothic", sans-serif;
+            font-size: 14px;
+            resize: none;
+            /* 크기 조정 비활성화 */
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="module">
+
+        // Firebase SDK 라이브러리 가져오기
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore, updateDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { doc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+
+        // Firebase 구성 정보 설정
+        const firebaseConfig = {
+            apiKey: "AIzaSyBd95g4iHz1a716isz96TeWfCazwjthtYQ",
+            authDomain: "sparta-43eda.firebaseapp.com",
+            projectId: "sparta-43eda",
+            storageBucket: "sparta-43eda.appspot.com",
+            messagingSenderId: "519426988653",
+            appId: "1:519426988653:web:cf2a402befcec8ab597d64",
+            measurementId: "G-WMBSTF2Q37"
+        };
+
+
+        // Firebase 인스턴스 초기화
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const auth = getAuth();
+
+        const AlbumURL = new URLSearchParams(window.location.search);
+        const albumId = AlbumURL.get('albumId');
+        let docs = await getDocs(collection(db, "test"));
+
+        docs.forEach((doc) => {
+            let row = doc.data();
+            let AlbumDetailId = doc.id;
+
+            if (AlbumDetailId == albumId) {
+                let advan0 = row['a'];
+                let infor0 = row['b'];
+                let point0 = row['c'];
+                let pro0 = row['d'];
+                let blog0 = row['e'];
+                let mbti0 = row['mbti'];
+
+
+                $('#advan').val(advan0);
+                $('#infor').val(infor0);
+                $('#point').val(point0);
+                $('#pro').val(pro0);
+                $('#blog').val(blog0);
+                $('#mbti').val(mbti0);
+            }
+        })
+
+
+
+
+        $("#editBtn").click(function () {
+            $("#saveBtn").show();
+            $(this).hide();
+        });
+
+
+        $("#saveBtn").click(async function () {
+            let docId = albumId;
+
+            let advanValue = $('#advan').val();
+            let inforValue = $('#infor').val();
+            let pointValue = $('#point').val();
+            let proValue = $('#pro').val();
+            let blogValue = $('#blog').val();
+            let mbtiValue = $('#mbti').val();
+
+
+            await updateDoc(doc(db, "test", docId), {
+                a: advanValue,
+                b: inforValue,
+                c: pointValue,
+                d: proValue,
+                e: blogValue,
+                mbti: mbtiValue
+
+            });
+
+            alert("수정 완료!");
+            window.location.reload();
+
+
+        });
+
+        $("#deleteConfirmBtn").click(function () {
+            console.log(albumId);
+
+            const isDelete = confirm("정말로 삭제하시겠습니까?");
+            if (isDelete) {
+                const documentRef = doc(db, "albums", albumId);
+                deleteDoc(documentRef).then(() => {
+                    //then을 추가하여 삭제가 완료된 후 이동하게 함
+                    alert("문서 삭제가 완료되었습니다.");
+                    location.href = 'mainpage.html';
+                })
+            } else {
+                alert("문서 삭제가 취소되었습니다.");
+            }
+        });
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/auth.user
+                // ...
+                console.log('로그인 상태')
+
+
+            } else {
+                // User is signed out
+                // ...
+                console.log('로그아웃 상태')
+            }
+        })
+
+
+    </script>
+    <title>한잔해</title>
+</head>
+
+<body>
+    <div class="buttons">
+        <button type="button" class="btn btn-primary" id="saveBtn" style="display: none;">저장하기</button>
+        <button type="button" id="editBtn" class="btn btn-warning">수정하기</button>
+        <button type="button" class="btn btn-danger" id="deleteConfirmBtn">삭제하기</button>
+    </div>
+    <div class="container">
+        <div class="image" style="height: 410px;">
+            <div class="input-container2" style="margin-top: 430px;">
+                <textarea id="mbti" style="width: 357.818182px;" name="opinion" cols="45" rows="4"
+                    placeholder="팀과 자신에 대한 설명 및 MBTI"></textarea><br>
+
+            </div>
+        </div>
+        <div class="input-container">
+            <textarea id="advan" name="opinion" cols="80" rows="4" placeholder="객관적으로 살펴본 자신의 장점"></textarea><br>
+            <textarea id="infor" name="opinion" cols="80" rows="4" placeholder="자신의 스타일 협업 스타일 소개"></textarea><br>
+            <textarea id="point" name="opinion" cols="80" rows="4" placeholder="우리 팀만의 특징과 추구하는 궁극적인 목표"></textarea><br>
+            <textarea id="pro" name="opinion" cols="80" rows="4" placeholder="우리 팀만의 약속"></textarea><br>
+            <textarea id="blog" name="opinion" cols="80" rows="4" placeholder="팀원들의 블로그 주소"></textarea><br>
+        </div>
+
+
+
+    </div>
+</body>
+
+</html>
