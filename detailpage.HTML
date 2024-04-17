@@ -85,7 +85,7 @@
         import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-
+        import { doc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
         // Firebase 구성 정보 설정
         const firebaseConfig = {
@@ -128,6 +128,25 @@
             }
         })
 
+        
+
+        $("#deleteConfirmBtn").click(function () {
+            console.log(albumId);
+
+            const isDelete = confirm("정말로 삭제하시겠습니까?")
+            if (isDelete) {
+                const documentRef = doc(db, "albums", albumId);
+                deleteDoc(documentRef);
+                alert("문서 삭제가 완료되었습니다.");
+                //여기서 원래 페이지로 이동되는데 문서가 삭제되지 않음
+                //location.href = `index.html`;
+
+            }
+            else {
+                alert("문서 삭제가 취소되었습니다.");
+            }
+        });
+
     </script>
     <title>한잔해</title>
 </head>
@@ -136,7 +155,7 @@
     <div class="buttons">
         <button type="button" class="btn btn-primary">저장하기</button>
         <button type="button" class="btn btn-warning">수정하기</button>
-        <button type="button" class="btn btn-danger">삭제하기</button>
+        <button type="button" class="btn btn-danger" id="deleteConfirmBtn">삭제하기</button>
     </div>
     <div class="container">
         <div class="image" style="height: 410px;">
