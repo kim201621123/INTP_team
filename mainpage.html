@@ -137,13 +137,13 @@
 
 
             let doc = {
-                'z': pic0,
-                'a': advan0,
-                'b': infor0,
-                'c': point0,
-                'd': pro0,
-                'e': blog0,
-                'mbti': mbti0
+                'pic0': pic0,
+                'advan0': advan0,
+                'infor0': infor0,
+                'point0': point0,
+                'pro0': pro0,
+                'blog0': blog0,
+                'mbti0': mbti0
             };
 
             await addDoc(collection(db, "albums"), doc);
@@ -155,13 +155,13 @@
             const querySnapshot = await getDocs(collection(db, "albums"));
             querySnapshot.forEach((doc) => {
                 let row = doc.data();
-                let pic0 = row['z'];
-                let advan0 = row['a'];
-                let infor0 = row['b'];
-                let point0 = row['c'];
-                let pro0 = row['d'];
-                let blog0 = row['e'];
-                let mbti0 = row['mbti'];
+                let pic0 = row['pic0'];
+                let advan0 = row['advan0'];
+                let infor0 = row['infor0'];
+                let point0 = row['point0'];
+                let pro0 = row['pro0'];
+                let blog0 = row['blog0'];
+                let mbti0 = row['mbti0'];
 
                 let albumId = doc.id; // 파이어베이스 문서 ID
 
