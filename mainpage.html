@@ -18,6 +18,22 @@
             font-family: "Gowun Dodum", sans-serif;
         }
 
+        header {
+            margin: 15px auto 15px auto;
+        }
+
+        header>input {
+            margin-right: 1%;
+            height: 30%;
+        }
+
+        header>button {
+            border-color: white;
+            border-radius: 10%;
+            margin-right: 0.5%;
+            height: 33.3px;
+        }
+
         .mytitle {
             height: 250px;
             color: white;
@@ -70,10 +86,12 @@
             margin-right: 5px;
         }
     </style>
-    
-    <script>    function detailAlbum(albumId) {
+
+    <script>    
+    function detailAlbum(albumId) {
             location.href = `11.HTML?albumId=${albumId}`;
-        }</script>
+        }
+    </script>
 
     <script type="module">
 
@@ -82,22 +100,26 @@
         import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
 
 
         // Firebase 구성 정보 설정
         const firebaseConfig = {
-            apiKey: "AIzaSyBJs_vtHzWRouy16fhfjJA2qAvWtAaJ6gk",
-            authDomain: "sparta-d8d6c.firebaseapp.com",
-            projectId: "sparta-d8d6c",
-            storageBucket: "sparta-d8d6c.appspot.com",
-            messagingSenderId: "230382481375",
-            appId: "1:230382481375:web:40ef947ccfb472da635e6a"
+            apiKey: "AIzaSyBd95g4iHz1a716isz96TeWfCazwjthtYQ",
+            authDomain: "sparta-43eda.firebaseapp.com",
+            projectId: "sparta-43eda",
+            storageBucket: "sparta-43eda.appspot.com",
+            messagingSenderId: "519426988653",
+            appId: "1:519426988653:web:cf2a402befcec8ab597d64",
+            measurementId: "G-WMBSTF2Q37"
         };
 
 
         // Firebase 인스턴스 초기화
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+
+        const auth = getAuth();
 
         $("#postingbtn").click(async function () {
             let image = $('#image').val();
@@ -150,11 +172,64 @@
 
         loadAlbums();
 
+        document.getElementById('loginbtn').addEventListener('click', (event) => {
+
+            event.preventDefault();
+
+            const loginemail = document.getElementById('loginemail').value
+            const loginpassword = document.getElementById('loginpassword').value
+
+            signInWithEmailAndPassword(auth, loginemail, loginpassword)
+                .then((userCredential) => {
+                    console.log(userCredential)
+                    alert('로그인 되었습니다.');
+                    // Signed in 
+                    const user = userCredential.user;
+                    // ...
+                    window.location.replace('');
+                })
+                .catch((error) => {
+                    alert('로그인 실패 계정을 다시 한번 확인해주세요.');
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                });
+
+        })
+
+        document.getElementById('signupbtn').addEventListener('click', (event) => {
+
+            event.preventDefault();
+
+            const signupemail = document.getElementById('loginemail').value
+            const signuppassword = document.getElementById('loginpassword').value
+
+            createUserWithEmailAndPassword(auth, signupemail, signuppassword)
+                .then((userCredential) => {
+                    alert('회원가입 완료되셨습니다.');
+                    // Signed in 
+                    const user = userCredential.user;
+                    // ...
+                    window.location.replace('');
+                })
+                .catch((error) => {
+                    alert('회원가입 실패 고객센터에 문의해주세요.');
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    // ..
+                });
+        })
+
 
     </script>
 </head>
 
 <body>
+    <header align="right">
+        <input type="email" id="loginemail" placeholder="이메일">
+        <input type="password" id="loginpassword" placeholder="비밀번호">
+        <button type="button" id="loginbtn">로그인</button>
+        <button type="button" id="signupbtn">회원가입</button>
+    </header>
     <div class="mytitle">
         <h1>나만의 추억앨범</h1>
 
