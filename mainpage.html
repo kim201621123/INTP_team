@@ -17,7 +17,21 @@
 
             font-family: "Gowun Dodum", sans-serif;
         }
+        header {
+            margin: 15px auto 15px auto;
+        }
 
+        header>input {
+            margin-right: 1%;
+            height: 30%;
+        }
+
+        header>button {
+            border-color: white;
+            border-radius: 10%;
+            margin-right: 0.5%;
+            height: 33.3px;
+        }
         .mytitle {
             height: 250px;
             color: white;
@@ -225,6 +239,12 @@
 </head>
 
 <body>
+    <header align="right">
+        <input type="email" id="loginemail" placeholder="이메일">
+        <input type="password" id="loginpassword" placeholder="비밀번호">
+        <button type="button" id="loginbtn">로그인</button>
+        <button type="button" id="signupbtn">회원가입</button>
+    </header>
     <div class="mytitle">
         <h1>나만의 추억앨범</h1>
         <button id="savebtn">등록하기</button>
