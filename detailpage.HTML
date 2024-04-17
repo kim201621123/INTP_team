@@ -82,7 +82,7 @@
 
         // Firebase SDK 라이브러리 가져오기
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-        import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getFirestore, updateDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         import { doc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
@@ -130,6 +130,40 @@
 
         
 
+
+        $("#editBtn").click(function () {
+    $("#saveBtn").show();
+    $(this).hide();
+});
+
+
+$("#saveBtn").click(async function () {
+    let docId = albumId;
+
+    let advanValue = $('#advan').val();
+    let inforValue = $('#infor').val();
+    let pointValue = $('#point').val();
+    let proValue = $('#pro').val();
+    let blogValue = $('#blog').val();
+    let mbtiValue = $('#mbti').val();
+
+
+        await updateDoc(doc(db, "test", docId), {
+            a: advanValue, 
+            b: inforValue, 
+            c: pointValue,
+            d: proValue,
+            e: blogValue,
+            mbti: mbtiValue
+
+            });
+
+        alert("수정 완료!");
+        window.location.reload();
+        
+
+});
+
         $("#deleteConfirmBtn").click(function () {
             console.log(albumId);
 
@@ -153,8 +187,8 @@
 
 <body>
     <div class="buttons">
-        <button type="button" class="btn btn-primary">저장하기</button>
-        <button type="button" class="btn btn-warning">수정하기</button>
+        <button type="button" class="btn btn-primary" id="saveBtn" style="display: none;">저장하기</button>
+        <button type="button" id="editBtn" class="btn btn-warning">수정하기</button>
         <button type="button" class="btn btn-danger" id="deleteConfirmBtn">삭제하기</button>
     </div>
     <div class="container">
