@@ -10,6 +10,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <style>
+        .introduce {
+            margin-top: 130px;
+            margin-left: 20px;
+        }
         .container {
             display: flex;
             justify-content: flex-start;
@@ -25,8 +29,16 @@
             height: 300px;
             background-size: cover;
             background-repeat: no-repeat;
+            background-position: center;
+            /* 이미지를 가운데로 정렬 */
             margin-right: 50px;
             margin-bottom: 150px;
+            display: flex;
+            /* 이미지를 가운데로 정렬하기 위해 부모 요소를 flex로 설정 */
+            justify-content: center;
+            /* 수평 가운데 정렬 */
+            align-items: center;
+            /* 수직 가운데 정렬 */
         }
 
         .input-container {
@@ -147,8 +159,8 @@
 
 
         $("#saveBtn").click(async function () {
-             // 저장 버튼 클릭 시 수정된 내용 저장 후 textarea 비활성화
-             $("textarea").prop("readonly", true);
+            // 저장 버튼 클릭 시 수정된 내용 저장 후 textarea 비활성화
+            $("textarea").prop("readonly", true);
             let docId = albumId;
 
             let picValue = $('#pic0').val();
@@ -221,16 +233,18 @@
     <div class="container">
         <div class="image" style="height: 410px;">
             <div class="input-container2" style="margin-top: 430px;">
-                <textarea id="mbti0" style="width: 357.818182px;" name="opinion" cols="45" rows="4" readonly
+                <div class="introduce">
+                <textarea id="mbti0" style="width: 357.818182px;" name="opinion" cols="45" rows="10" readonly
                     placeholder="팀과 자신에 대한 설명 및 MBTI"></textarea><br>
-
+                </div>
             </div>
         </div>
         <div class="input-container">
             <textarea id="pic0" name="opinion" cols="80" rows="4" readonly placeholder="사진 주소"></textarea><br>
             <textarea id="advan0" name="opinion" cols="80" rows="4" readonly placeholder="이름"></textarea><br>
             <textarea id="infor0" name="opinion" cols="80" rows="4" readonly placeholder="자신의 협업 스타일 소개"></textarea><br>
-            <textarea id="point0" name="opinion" cols="80" rows="4" readonly placeholder="특징과 추구하는 궁극적인 목표"></textarea><br>
+            <textarea id="point0" name="opinion" cols="80" rows="4" readonly
+                placeholder="특징과 추구하는 궁극적인 목표"></textarea><br>
             <textarea id="pro0" name="opinion" cols="80" rows="4" readonly placeholder="우리 팀과의 약속"></textarea><br>
             <textarea id="blog0" name="opinion" cols="80" rows="4" readonly placeholder="블로그 주소"></textarea><br>
         </div>
