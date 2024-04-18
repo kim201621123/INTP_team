@@ -14,6 +14,7 @@
             margin-top: 130px;
             margin-left: 20px;
         }
+
         .container {
             display: flex;
             justify-content: flex-start;
@@ -25,8 +26,8 @@
         }
 
         .image {
-            width: 360px;
-            height: 300px;
+            width: 350px;
+            height: 500px;
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
@@ -44,7 +45,18 @@
         .input-container {
             width: 500px;
             height: auto;
+            margin-top: -25px;
         }
+
+        .input-container textarea {
+            height: 70px;
+        }
+
+        .input-container textarea[readonly] {
+            background-color: #f0f0f0;
+            color: #666;
+        }
+
 
         .input {
             width: calc(100% - 16px);
@@ -74,6 +86,8 @@
             margin-top: 310px;
 
         }
+
+
 
         .input-container2 textarea {
             width: calc(100% - 16px);
@@ -154,6 +168,7 @@
             // 수정 버튼 클릭 시 모든 textarea 활성화
             $("textarea").prop("readonly", false);
             $('#pic0').show(); // 이미지 주소 입력란 표시
+            $('#pic1').show(); // 이미지 주소 텍스트 표시
             $("#saveBtn").show();
             $(this).hide();
         });
@@ -233,21 +248,33 @@
     </div>
     <div class="container">
         <div class="image" style="height: 410px;">
-            <div class="input-container2" style="margin-top: 430px;">
+            <div class="input-container2" style="margin-top: 400px;">
                 <div class="introduce">
-                <textarea id="mbti0" style="width: 357.818182px;" name="opinion" cols="45" rows="10" readonly
-                    placeholder="팀과 자신에 대한 설명 및 MBTI"></textarea><br>
+                    <p>MBTI</p>
+                    <textarea id="mbti0" style="width: 360px; height:50px; margin-top:-15px;" name="opinion" cols="45"
+                        rows="10" readonly placeholder="MBTI"></textarea><br>
                 </div>
             </div>
         </div>
         <div class="input-container">
-            <textarea id="pic0" style="display: none;" name="opinion" cols="80" rows="4" readonly placeholder="사진 주소"></textarea><br>
-            <textarea id="advan0" name="opinion" cols="80" rows="4" readonly placeholder="이름"></textarea><br>
-            <textarea id="infor0" name="opinion" cols="80" rows="4" readonly placeholder="자신의 협업 스타일 소개"></textarea><br>
-            <textarea id="point0" name="opinion" cols="80" rows="4" readonly
-                placeholder="특징과 추구하는 궁극적인 목표"></textarea><br>
-            <textarea id="pro0" name="opinion" cols="80" rows="4" readonly placeholder="우리 팀과의 약속"></textarea><br>
-            <textarea id="blog0" name="opinion" cols="80" rows="4" readonly placeholder="블로그 주소"></textarea><br>
+            <p id="pic1" style="display: none;">사진주소</p>
+            <textarea id="pic0" style="display: none; margin-top:-10px;" name="opinion" cols="80" rows="4" readonly
+                placeholder="사진 주소"></textarea><br>
+            <p>이름</p>
+            <textarea id="advan0" style="margin-top:-10px;" name="opinion" cols="80" rows="4" readonly
+                placeholder="이름"></textarea><br>
+            <p>자신의 협업 스타일</p>
+            <textarea id="infor0" style="margin-top:-10px;" name="opinion" cols="80" rows="4" readonly
+                placeholder="자신의 협업 스타일"></textarea><br>
+            <p>나의 궁극적인 목표</p>
+            <textarea id="point0" style="margin-top:-10px;" name="opinion" cols="80" rows="4" readonly
+                placeholder="나의 궁극적인 목표"></textarea><br>
+            <p>우리 팀과의 약속</p>
+            <textarea id="pro0" style="margin-top:-10px;" name="opinion" cols="80" rows="4" readonly
+                placeholder="우리 팀과의 약속"></textarea><br>
+            <p>블로그 주소</p>
+            <textarea id="blog0" style="margin-top:-10px;" name="opinion" cols="80" rows="4" readonly
+                placeholder="블로그 주소"></textarea><br>
         </div>
 
 
