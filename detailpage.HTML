@@ -85,6 +85,7 @@
         import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         import { doc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
 
         // Firebase 구성 정보 설정
         const firebaseConfig = {
@@ -102,6 +103,9 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        const auth = getAuth();
+
+    
         const AlbumURL = new URLSearchParams(window.location.search);
         const albumId = AlbumURL.get('albumId');
         let docs = await getDocs(collection(db, "albums"));
@@ -111,13 +115,13 @@
             let AlbumDetailId = doc.id;
 
             if (AlbumDetailId == albumId) {
-                let pic0 = row['z'];
-                let advan0 = row['a'];
-                let infor0 = row['b'];
-                let point0 = row['c'];
-                let pro0 = row['d'];
-                let blog0 = row['e'];
-                let mbti0 = row['mbti'];
+                let pic0 = row['pic0'];
+                let advan0 = row['advan0'];
+                let infor0 = row['infor0'];
+                let point0 = row['point0'];
+                let pro0 = row['pro0'];
+                let blog0 = row['blog0'];
+                let mbti0 = row['mbti0'];
 
                 $('#pic0').val(pic0);
                 $('#advan0').val(advan0);
@@ -153,13 +157,13 @@ $("#saveBtn").click(async function () {
 
 
         await updateDoc(doc(db, "albums", docId), {
-            z: picValue,
-            a: advanValue, 
-            b: inforValue, 
-            c: pointValue,
-            d: proValue,
-            e: blogValue,
-            mbti: mbtiValue
+            pic0: picValue,
+            advan0: advanValue, 
+            infor0: inforValue, 
+            point0: pointValue,
+            pro0: proValue,
+            blog0: blogValue,
+            mbti0: mbtiValue
 
             });
 
@@ -184,6 +188,20 @@ $("#deleteConfirmBtn").click(function () {
         alert("문서 삭제가 취소되었습니다.");
     }
 });
+onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/auth.user
+                // ...
+                console.log('로그인 상태')
+
+
+            } else {
+                // User is signed out
+                // ...
+                console.log('로그아웃 상태')
+            }
+        })
 
 
     </script>
