@@ -17,6 +17,7 @@
 
             font-family: "Gowun Dodum", sans-serif;
         }
+
         header {
             margin: 15px auto 15px auto;
         }
@@ -32,6 +33,7 @@
             margin-right: 0.5%;
             height: 33.3px;
         }
+
         .mytitle {
             height: 250px;
             color: white;
@@ -71,7 +73,6 @@
             padding: 20px;
             box-shadow: 0px 0px 3px 0px blue;
             border-radius: 5px;
-            display: none;
         }
 
         .mybtn {
@@ -92,7 +93,6 @@
 
     <script type="module">
 
-        // Firebase SDK 라이브러리 가져오기
         // Firebase SDK 라이브러리 가져오기
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
         import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
@@ -117,33 +117,19 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-
         const auth = getAuth();
 
-
-        $("#savebtn").click(async function () {
-            $('#postingbox').toggle();
-
-        })
-
         $("#postingbtn").click(async function () {
-            let pic0 = $('#pic0').val();
-            let advan0 = $('#advan0').val();
-            let infor0 = $('#infor0').val();
-            let point0 = $('#point0').val();
-            let pro0 = $('#pro0').val();
-            let blog0 = $('#blog0').val();
-            let mbti0 = $('#mbti0').val();
-
+            let image = $('#image').val();
+            let title = $('#title').val();
+            let content = $('#content').val();
+            let date = $('#date').val();
 
             let doc = {
-                'z': pic0,
-                'a': advan0,
-                'b': infor0,
-                'c': point0,
-                'd': pro0,
-                'e': blog0,
-                'mbti': mbti0
+                'image': image,
+                'title': title,
+                'content': content,
+                'date': date
             };
 
             await addDoc(collection(db, "albums"), doc);
@@ -155,26 +141,22 @@
             const querySnapshot = await getDocs(collection(db, "albums"));
             querySnapshot.forEach((doc) => {
                 let row = doc.data();
-                let pic0 = row['z'];
-                let advan0 = row['a'];
-                let infor0 = row['b'];
-                let point0 = row['c'];
-                let pro0 = row['d'];
-                let blog0 = row['e'];
-                let mbti0 = row['mbti'];
-
+                let image = row['image'];
+                let title = row['title'];
+                let content = row['content'];
+                let date = row['date'];
                 let albumId = doc.id; // 파이어베이스 문서 ID
 
                 let temp_html = `
                 <div class="col">
                     <div class="card h-100" onclick="detailAlbum('${albumId}')">
-                        <img src="${pic0}" class="card-img-top" alt="...">
+                        <img src="${image}" class="card-img-top" alt="...">
                         <div class="card-body">
-                            <h5 class="card-title">${advan0}</h5>
-                            <p class="card-text">${point0}</p>
+                            <h5 class="card-title">${title}</h5>
+                            <p class="card-text">${content}</p>
                         </div>
                         <div class="card-footer">
-                            <small class="text-body-secondary">${mbti0}</small>
+                            <small class="text-body-secondary">${date}</small>
                         </div>
                     </div>
                 </div>`;
@@ -185,55 +167,39 @@
             });
 
         }
+
         loadAlbums();
 
-        document.getElementById('loginbtn').addEventListener('click', (event) => {
+        document.getElementById('logoutbtn').addEventListener('click', (event) => {
 
             event.preventDefault();
 
-            const loginemail = document.getElementById('loginemail').value
-            const loginpassword = document.getElementById('loginpassword').value
-
-            signInWithEmailAndPassword(auth, loginemail, loginpassword)
-                .then((userCredential) => {
-                    console.log(userCredential)
-                    alert('로그인 되었습니다.');
-                    // Signed in 
-                    const user = userCredential.user;
-                    // ...
-                    window.location.replace('');
-                })
-                .catch((error) => {
-                    alert('로그인 실패 계정을 다시 한번 확인해주세요.');
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                });
+            signOut(auth).then(() => {
+                // Sign-out successful.
+                alert('로그아웃 되었습니다.');
+                window.location.replace('');
+            }).catch((error) => {
+                // An error happened.
+                alert('오류 발생, 페이지를 닫아주세요.');
+                window.location.reload();
+            })
 
         })
 
-        document.getElementById('signupbtn').addEventListener('click', (event) => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/auth.user
+                // ...
+                console.log('로그인 상태')
 
-            event.preventDefault();
 
-            const signupemail = document.getElementById('loginemail').value
-            const signuppassword = document.getElementById('loginpassword').value
-
-            createUserWithEmailAndPassword(auth, signupemail, signuppassword)
-                .then((userCredential) => {
-                    alert('회원가입 완료되셨습니다.');
-                    // Signed in 
-                    const user = userCredential.user;
-                    // ...
-                    window.location.replace('');
-                })
-                .catch((error) => {
-                    alert('회원가입 실패 고객센터에 문의해주세요.');
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    // ..
-                });
+            } else {
+                // User is signed out
+                // ...
+                console.log('로그아웃 상태')
+            }
         })
-
 
 
     </script>
@@ -241,44 +207,28 @@
 
 <body>
     <header align="right">
-        <input type="email" id="loginemail" placeholder="이메일">
-        <input type="password" id="loginpassword" placeholder="비밀번호">
-        <button type="button" id="loginbtn">로그인</button>
-        <button type="button" id="signupbtn">회원가입</button>
+        <button type="button" id="logoutbtn">로그아웃</button>
     </header>
     <div class="mytitle">
         <h1>나만의 추억앨범</h1>
-        <button id="savebtn">등록하기</button>
 
     </div>
     <div class="mypostingbox" id="postingbox">
         <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="pic0" placeholder="사진">
-            <label for="floatingInput">사진 주소</label>
+            <input type="email" class="form-control" id="image" placeholder="앨범 이미지">
+            <label for="floatingInput">앨범 이미지</label>
         </div>
         <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="advan0" placeholder="이름">
-            <label for="floatingInput">이름</label>
+            <input type="email" class="form-control" id="title" placeholder="앨범 제목">
+            <label for="floatingInput">앨범 제목</label>
         </div>
         <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="infor0" placeholder="자신의 협업 스타일 소개">
-            <label for="floatingInput">자신의 협업 스타일 소개</label>
+            <input type="email" class="form-control" id="content" placeholder="앨범 내용">
+            <label for="floatingInput">앨범 내용</label>
         </div>
         <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="point0" placeholder="특징과 추구하는 궁극적인 목표">
-            <label for="floatingInput">특징과 추구하는 궁극적인 목표</label>
-        </div>
-        <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="pro0" placeholder="우리 팀과의 약속">
-            <label for="floatingInput">우리 팀과의 약속</label>
-        </div>
-        <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="blog0" placeholder="블로그 주소">
-            <label for="floatingInput">블로그 주소</label>
-        </div>
-        <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="mbti0" placeholder="MBTI">
-            <label for="floatingInput">MBTI</label>
+            <input type="email" class="form-control" id="date" placeholder="앨범 날짜">
+            <label for="floatingInput">앨범 날짜</label>
         </div>
 
         <div class="mybtn">
@@ -289,7 +239,7 @@
 
 
     <div class="mycards">
-        <div id="card" class="row row-cols-1 row-cols-md-5 g-4">
+        <div id="card" class="row row-cols-1 row-cols-md-4 g-4">
 
         </div>
     </div>
