@@ -46,7 +46,7 @@
             align-items: flex-start;
             flex-wrap: wrap;
             padding: 20px;
-            margin-top: 90px;
+            margin-top: 75px;
             position: relative;
         }
 
@@ -116,11 +116,11 @@
             text-align: right;
         }
 
-        
-        .buttons>button { 
+
+        .buttons>button {
             margin: 10px;
-            color: white; 
-            background-color: transparent; 
+            color: white;
+            background-color: transparent;
             border-color: white;
             box-shadow: none;
         }
@@ -133,6 +133,13 @@
             margin-top: -10px;
             border-color: transparent;
             outline: none;
+        }
+
+        .text_pic {
+            resize: none;
+            background-color: transparent;
+            border-color: purple;
+            margin-top: -10px;
         }
 
 
@@ -316,13 +323,13 @@
         </div>
         <div class="input-container">
             <p id="pic1" style="display: none; font-weight : bold;">사진주소</p>
-            <textarea class="text_area" id="pic0" style="display: none; margin-top:-10px;" name="opinion" cols="80"
+            <textarea class="text_pic" id="pic0" style="display: none; margin-top:-10px;" name="opinion" cols="80"
                 rows="4" readonly placeholder="사진 주소"></textarea><br>
             <p></p>
             <textarea id="advan0" class="text_area" name="opinion" cols="80" rows="4" readonly
                 style="font-size: xx-large; font-weight: bolder;" placeholder="이름"></textarea><br>
             <p></p>
-            <p  style="font-weight : bold; font-size: large;">자신의 협업 스타일</p>
+            <p style="font-weight : bold; font-size: large;">자신의 협업 스타일</p>
             <hr style="border : 0px; border-top: 5px solid purple">
             <textarea id="infor0" class="text_area" name="opinion" cols="80" rows="4" readonly
                 placeholder="자신의 협업 스타일"></textarea><br>
