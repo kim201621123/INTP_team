@@ -185,14 +185,19 @@
         });
 
         $("#postingbtn").click(async function () {
-            let pic0 = $('#pic0').val();
-            let advan0 = $('#advan0').val();
-            let infor0 = $('#infor0').val();
-            let point0 = $('#point0').val();
-            let pro0 = $('#pro0').val();
-            let blog0 = $('#blog0').val();
-            let mbti0 = $('#mbti0').val();
+            let pic0 = $('#pic0').val().trim();
+            let advan0 = $('#advan0').val().trim();
+            let infor0 = $('#infor0').val().trim();
+            let point0 = $('#point0').val().trim();
+            let pro0 = $('#pro0').val().trim();
+            let blog0 = $('#blog0').val().trim();
+            let mbti0 = $('#mbti0').val().trim();
 
+            if (pic0 === '' || advan0 === '' || infor0 === '' || point0 === '' || pro0 === '' || blog0 === '' || mbti0 === '') {
+                // alert 창으로 
+                alert('빈 공란이 있습니다. 입력을 해주세요');
+                return;
+            }
 
             let doc = {
                 'pic0': pic0,
