@@ -10,6 +10,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <style>
+        .introduce {
+            margin-top: 130px;
+            margin-left: 20px;
+        }
+
         .container {
             display: flex;
             justify-content: flex-start;
@@ -21,19 +26,42 @@
         }
 
         .image {
-            width: 360px;
-            height: 300px;
-            background-image: url(https://img.freepik.com/free-photo/fresh-cocktails-with-ice-lemon-lime-fruits-generative-ai_188544-12370.jpg?size=626&ext=jpg&ga=GA1.1.1224184972.1712102400&semt=sph);
+            width: 350px;
+            height: 500px;
             background-size: cover;
             background-repeat: no-repeat;
+            background-position: center;
+            /* 이미지를 가운데로 정렬 */
             margin-right: 50px;
             margin-bottom: 150px;
+            display: flex;
+            /* 이미지를 가운데로 정렬하기 위해 부모 요소를 flex로 설정 */
+            justify-content: center;
+            /* 수평 가운데 정렬 */
+            align-items: center;
+            /* 수직 가운데 정렬 */
         }
 
         .input-container {
             width: 500px;
             height: auto;
+            margin-top: -25px;
         }
+
+        .input-container textarea {
+            height: 70px;
+        }
+
+        .input-container textarea[readonly] {
+            background-color: #f0f0f0;
+            color: #666;
+        }
+
+        .input-container2 textarea[readonly] {
+            background-color: #f0f0f0;
+            color: #666;
+        }
+
 
         .input {
             width: calc(100% - 16px);
@@ -63,6 +91,8 @@
             margin-top: 310px;
 
         }
+
+
 
         .input-container2 textarea {
             width: calc(100% - 16px);
@@ -102,29 +132,35 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        const auth = getAuth();
+
+
         const AlbumURL = new URLSearchParams(window.location.search);
         const albumId = AlbumURL.get('albumId');
-        let docs = await getDocs(collection(db, "test"));
+        let docs = await getDocs(collection(db, "albums"));
 
         docs.forEach((doc) => {
             let row = doc.data();
             let AlbumDetailId = doc.id;
 
             if (AlbumDetailId == albumId) {
-                let advan0 = row['a'];
-                let infor0 = row['b'];
-                let point0 = row['c'];
-                let pro0 = row['d'];
-                let blog0 = row['e'];
-                let mbti0 = row['mbti'];
+                let pic0 = row['pic0'];
+                let advan0 = row['advan0'];
+                let infor0 = row['infor0'];
+                let point0 = row['point0'];
+                let pro0 = row['pro0'];
+                let blog0 = row['blog0'];
+                let mbti0 = row['mbti0'];
 
+                $('#pic0').val(pic0);
+                $('#advan0').val(advan0);
+                $('#infor0').val(infor0);
+                $('#point0').val(point0);
+                $('#pro0').val(pro0);
+                $('#blog0').val(blog0);
+                $('#mbti0').val(mbti0);
 
-                $('#advan').val(advan0);
-                $('#infor').val(infor0);
-                $('#point').val(point0);
-                $('#pro').val(pro0);
-                $('#blog').val(blog0);
-                $('#mbti').val(mbti0);
+                $('.image').css('background-image', `url(${pic0})`);
             }
         })
 
@@ -132,29 +168,37 @@
 
 
         $("#editBtn").click(function () {
-    $("#saveBtn").show();
-    $(this).hide();
-});
+            // 수정 버튼 클릭 시 모든 textarea 활성화
+            $("textarea").prop("readonly", false);
+            $('#pic0').show(); // 이미지 주소 입력란 표시
+            $('#pic1').show(); // 이미지 주소 텍스트 표시
+            $("#saveBtn").show();
+            $(this).hide();
+        });
 
 
-$("#saveBtn").click(async function () {
-    let docId = albumId;
+        $("#saveBtn").click(async function () {
+            // 저장 버튼 클릭 시 수정된 내용 저장 후 textarea 비활성화
+            $("textarea").prop("readonly", true);
+            let docId = albumId;
 
-    let advanValue = $('#advan').val();
-    let inforValue = $('#infor').val();
-    let pointValue = $('#point').val();
-    let proValue = $('#pro').val();
-    let blogValue = $('#blog').val();
-    let mbtiValue = $('#mbti').val();
+            let picValue = $('#pic0').val();
+            let advanValue = $('#advan0').val();
+            let inforValue = $('#infor0').val();
+            let pointValue = $('#point0').val();
+            let proValue = $('#pro0').val();
+            let blogValue = $('#blog0').val();
+            let mbtiValue = $('#mbti0').val();
 
 
-        await updateDoc(doc(db, "test", docId), {
-            a: advanValue, 
-            b: inforValue, 
-            c: pointValue,
-            d: proValue,
-            e: blogValue,
-            mbti: mbtiValue
+            await updateDoc(doc(db, "albums", docId), {
+                pic0: picValue,
+                advan0: advanValue,
+                infor0: inforValue,
+                point0: pointValue,
+                pro0: proValue,
+                blog0: blogValue,
+                mbti0: mbtiValue
 
             });
 
@@ -167,18 +211,32 @@ $("#saveBtn").click(async function () {
 $("#deleteConfirmBtn").click(function () {
     console.log(albumId);
 
-    const isDelete = confirm("정말로 삭제하시겠습니까?");
-    if (isDelete) {
-        const documentRef = doc(db, "albums", albumId);
-        deleteDoc(documentRef).then(() => {  
-        //then을 추가하여 삭제가 완료된 후 이동하게 함
-            alert("문서 삭제가 완료되었습니다.");
-            location.href = 'mainpage.html';
+            const isDelete = confirm("정말로 삭제하시겠습니까?");
+            if (isDelete) {
+                const documentRef = doc(db, "albums", albumId);
+                deleteDoc(documentRef).then(() => {
+                    //then을 추가하여 삭제가 완료된 후 이동하게 함
+                    alert("문서 삭제가 완료되었습니다.");
+                    location.href = 'mainpage.html';
+                })
+            } else {
+                alert("문서 삭제가 취소되었습니다.");
+            }
+        });
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/auth.user
+                // ...
+                console.log('로그인 상태')
+
+
+            } else {
+                // User is signed out
+                // ...
+                console.log('로그아웃 상태')
+            }
         })
-    } else {
-        alert("문서 삭제가 취소되었습니다.");
-    }
-});
 
 
     </script>
@@ -193,18 +251,33 @@ $("#deleteConfirmBtn").click(function () {
     </div>
     <div class="container">
         <div class="image" style="height: 410px;">
-            <div class="input-container2" style="margin-top: 430px;">
-                <textarea id="mbti" style="width: 357.818182px;" name="opinion" cols="45" rows="4"
-                    placeholder="팀과 자신에 대한 설명 및 MBTI"></textarea><br>
-
+            <div class="input-container2" style="margin-top: 400px;">
+                <div class="introduce">
+                    <p>MBTI</p>
+                    <textarea id="mbti0" style="width: 360px; height:50px; margin-top:-15px;" name="opinion" cols="45"
+                        rows="10" readonly placeholder="MBTI"></textarea><br>
+                </div>
             </div>
         </div>
         <div class="input-container">
-            <textarea id="advan" name="opinion" cols="80" rows="4" placeholder="객관적으로 살펴본 자신의 장점"></textarea><br>
-            <textarea id="infor" name="opinion" cols="80" rows="4" placeholder="자신의 스타일 협업 스타일 소개"></textarea><br>
-            <textarea id="point" name="opinion" cols="80" rows="4" placeholder="우리 팀만의 특징과 추구하는 궁극적인 목표"></textarea><br>
-            <textarea id="pro" name="opinion" cols="80" rows="4" placeholder="우리 팀만의 약속"></textarea><br>
-            <textarea id="blog" name="opinion" cols="80" rows="4" placeholder="팀원들의 블로그 주소"></textarea><br>
+            <p id="pic1" style="display: none;">사진주소</p>
+            <textarea id="pic0" style="display: none; margin-top:-10px;" name="opinion" cols="80" rows="4" readonly
+                placeholder="사진 주소"></textarea><br>
+            <p>이름</p>
+            <textarea id="advan0" style="margin-top:-10px;" name="opinion" cols="80" rows="4" readonly
+                placeholder="이름"></textarea><br>
+            <p>자신의 협업 스타일</p>
+            <textarea id="infor0" style="margin-top:-10px;" name="opinion" cols="80" rows="4" readonly
+                placeholder="자신의 협업 스타일"></textarea><br>
+            <p>나의 궁극적인 목표</p>
+            <textarea id="point0" style="margin-top:-10px;" name="opinion" cols="80" rows="4" readonly
+                placeholder="나의 궁극적인 목표"></textarea><br>
+            <p>우리 팀과의 약속</p>
+            <textarea id="pro0" style="margin-top:-10px;" name="opinion" cols="80" rows="4" readonly
+                placeholder="우리 팀과의 약속"></textarea><br>
+            <p>블로그 주소</p>
+            <textarea id="blog0" style="margin-top:-10px;" name="opinion" cols="80" rows="4" readonly
+                placeholder="블로그 주소"></textarea><br>
         </div>
 
 
