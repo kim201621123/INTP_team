@@ -298,6 +298,10 @@
             }
         })
 
+        $("#returnToMainBtn").click(function () {
+            location.href = 'mainpage.html';
+        })
+
 
     </script>
     <title>introduce</title>
@@ -305,6 +309,8 @@
 
 <body>
     <div class="buttons">
+        <button type="button" class="btn btn-light" id="returnToMainBtn" style="float: left;">
+            To Main Page</button>
         <button type="button" class="btn btn-primary" id="saveBtn" style="display: none;">
             저장하기</button>
         <button type="button" id="editBtn" class="btn btn-warning">
