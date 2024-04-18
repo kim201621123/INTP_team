@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INTP조 소개</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
+
+        * {
+
+            font-family: "Gowun Dodum", sans-serif;
+        }
+
+        header {
+            margin: 30px auto 30px auto;
+        }
+
+        /*스크롤바*/
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: white;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: purple;
+        }
+
+        ::-webkit-scrollbar-button {
+            display: none;
+        }
+
+        ::-webkit-scrollbar-track,
+        ::-webkit-scrollbar-thumb {
+            border-radius: 5px;
+        }
+
+        .mycards::-webkit-scrollbar-thumb {
+            background-color: white;
+        }
+
+        /* 스크롤 바*/
+
+        header>button {
+            border-color: white;
+            border-radius: 10%;
+            margin-right: 0.5%;
+            height: 33.3px;
+        }
+
+        .sign {
+            color: purple;
+            background-color: transparent;
+            border: transparent;
+        }
+
+        .sign:hover {
+            background-color: plum;
+            border-radius: 10%;
+        }
+
+
+        .member {
+            color: plum;
+            background-color: transparent;
+            border: 1px solid purple;
+        }
+
+
+        .main {
+            height: 400px;
+            background-image: url('https://www.16personalities.com/static/images/personality-types/scenes/analysts_Logician_INTP_parenthood.svg');
+            background-position: right;
+            background-size: 50%;
+            background-repeat: no-repeat;
+            margin-bottom: 100px;
+            position: relative;
+
+        }
+
+        .main>button {
+            width: 150px;
+            height: 50px;
+            color: white;
+            background-color: transparent;
+            border: 1px solid white;
+            border-radius: 5px;
+            margin-top: 20px;
+
+        }
+
+
+        .mycards {
+            width: 1600px;
+            margin: 30px auto 0px auto;
+            padding: 0.5rem 0rem 0rem 0.5rem;
+            margin-top: 0.5rem;
+            display: flex;
+            overflow-x: auto;
+
+        }
+
+        .mypostingbox {
+            width: 500px;
+            margin: 30px auto 0px auto;
+            padding: 20px;
+            box-shadow: 0px 0px 3px 0px purple;
+            background-color: white;
+            border-radius: 5px;
+            position: absolute;
+            top: 0px;
+            right: 970px;
+        }
+
+        .mybtn {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mybtn>button {
+            margin-right: 5px;
+            background-color: purple;
+            border-color: purple;
+            color: white;
+        }
+
+        .card-img-top:hover {
+            cursor: pointer;
+        }
+    </style>
+
+
+    <script>//페이지이동
+        function detailAlbum(albumId) {
+            location.href = `detailpage.HTML?albumId=${albumId}`;
+        } 
+    </script>
+
+    <script type="module"> //파이어베이스 스크립트
+
+        // Firebase SDK 라이브러리 가져오기
+        // Firebase SDK 라이브러리 가져오기
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+
+
+        // Firebase 구성 정보 설정
+        const firebaseConfig = {
+            apiKey: "AIzaSyBd95g4iHz1a716isz96TeWfCazwjthtYQ",
+            authDomain: "sparta-43eda.firebaseapp.com",
+            projectId: "sparta-43eda",
+            storageBucket: "sparta-43eda.appspot.com",
+            messagingSenderId: "519426988653",
+            appId: "1:519426988653:web:cf2a402befcec8ab597d64",
+            measurementId: "G-WMBSTF2Q37"
+        };
+
+
+        // Firebase 인스턴스 초기화
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth();
+
+        $("#savebtn").click(async function () {
+            $('#postingbox').toggle();
+        })
+
+        $("#cancelbtn").click(async function () {
+            $('#postingbox').toggle();
+        });
+
+        $("#postingbtn").click(async function () {
+            let pic0 = $('#pic0').val().trim();
+            let advan0 = $('#advan0').val().trim();
+            let infor0 = $('#infor0').val().trim();
+            let point0 = $('#point0').val().trim();
+            let pro0 = $('#pro0').val().trim();
+            let blog0 = $('#blog0').val().trim();
+            let mbti0 = $('#mbti0').val().trim();
+
+            if (pic0 === '' || advan0 === '' || infor0 === '' || point0 === '' || pro0 === '' || blog0 === '' || mbti0 === '') {
+                // alert 창으로 
+                alert('빈 공란이 있습니다. 입력을 해주세요');
+                return;
+            }
+
+            let doc = {
+                'pic0': pic0,
+                'advan0': advan0,
+                'infor0': infor0,
+                'point0': point0,
+                'pro0': pro0,
+                'blog0': blog0,
+                'mbti0': mbti0
+            };
+
+            await addDoc(collection(db, "albums"), doc);
+            alert('저장 완료!');
+            window.location.reload();
+        })
+
+        async function loadAlbums() {
+            const querySnapshot = await getDocs(collection(db, "albums"));
+            querySnapshot.forEach((doc) => {
+                let row = doc.data();
+                let pic0 = row['pic0'];
+                let advan0 = row['advan0'];
+                let infor0 = row['infor0'];
+                let point0 = row['point0'];
+                let pro0 = row['pro0'];
+                let blog0 = row['blog0'];
+                let mbti0 = row['mbti0'];
+
+                let albumId = doc.id; // 파이어베이스 문서 ID
+
+                let temp_html = `
+                <div class="col">
+                    <div class="card h-100" onclick="detailAlbum('${albumId}')">
+                        <img src="${pic0}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">${advan0}</h5>
+                            <p class="card-text">${point0}</p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-body-secondary">${mbti0}</small>
+                        </div>
+                    </div>
+                </div>`;
+                $('#card').append(temp_html);
+                $(`.card#${albumId}`).click(() => {
+                    detailAlbum(albumId);
+                });
+            });
+
+        }
+        loadAlbums();
+
+        document.getElementById('logoutbtn').addEventListener('click', (event) => {
+
+            event.preventDefault();
+
+            signOut(auth).then(() => {
+                // Sign-out successful.
+                alert('로그아웃 되었습니다.');
+                window.location.replace('');
+            }).catch((error) => {
+                // An error happened.
+                alert('오류 발생, 페이지를 닫아주세요.');
+                window.location.reload();
+            })
+
+        })
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/auth.user
+                // ...
+                console.log('로그인 상태')
+
+
+            } else {
+                // User is signed out
+                // ...
+                console.log('로그아웃 상태')
+            }
+        })
+
+    </script>
+
+    <script> //스크롤 애니메이션
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById('scrollButtonback').addEventListener('click', function () {
+                const mycards = document.querySelector('.mycards');
+                const currentScrollLeft = mycards.scrollLeft;
+                const targetScrollLeft = currentScrollLeft - 200;
+                smoothScrollTo(mycards, targetScrollLeft, 500);
+            });
+
+            document.getElementById('scrollButtongo').addEventListener('click', function () {
+                const mycards = document.querySelector('.mycards');
+                const currentScrollLeft = mycards.scrollLeft;
+                const targetScrollLeft = currentScrollLeft + 200;
+                smoothScrollTo(mycards, targetScrollLeft, 500);
+            });
+        });
+
+        function smoothScrollTo(element, target, duration) {
+            const start = element.scrollLeft;
+            const startTime = performance.now();
+
+            function scrollAnimation(currentTime) {
+                const elapsedTime = currentTime - startTime;
+                const progress = Math.min(elapsedTime / duration, 1);
+                element.scrollLeft = start + (target - start) * progress;
+
+                if (progress < 1) {
+                    requestAnimationFrame(scrollAnimation);
+                }
+            }
+
+            requestAnimationFrame(scrollAnimation);
+        }
+    </script>
+</head>
+
+<body>
+    <header style="margin: 30px 10px 70px 0px;">
+        <ul align="right">
+            <button type="button" class="sign" id="logoutbtn">로그아웃</button>
+        </ul>
+    </header>
+    <div class="main">
+        <div class="p-5 mb-4 bg-body-tertiary rounded-3">
+            <div class="container-fluid py-5">
+                <h1 class="display-5 fw-bold">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTP</h1>
+                <p class="col-md-8 fs-4">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTP만
+                    모인 팀</p>
+                <button style="border: none; background-color: white;" id="savebtn" type="button"><img
+                        style="height: 250px; width: 250; background-color: white; border: none;" class="btnimg"
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Intp-logician.svg/800px-Intp-logician.svg.png"></button>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="mycards">
+            <div style="flex-wrap: nowrap;" id="card" class="row row-cols-1 row-cols-md-5 g-4">
+            </div>
+        </div>
+        <div class="text-end pt-3" style="cursor: pointer; width: 1600px; margin: 0px auto 0px auto;
+        padding: 0.5rem 0rem 0rem 0.5rem; display: right;">
+            <img class="button_design" id="scrollButtonback" src="caret_left.svg" width="30" height="30">
+            <img class="button_design" id="scrollButtongo" src="caret_right.svg" width="30" height="30">
+        </div>
+    </div>
+    <div class="mypostingbox" id="postingbox" style="display: none;">
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="pic0" placeholder="사진">
+            <label for="floatingInput">사진 주소</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="advan0" placeholder="이름">
+            <label for="floatingInput">이름</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="infor0" placeholder="자신의 협업 스타일">
+            <label for="floatingInput">자신의 협업 스타일</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="point0" placeholder="나의 궁극적인 목표">
+            <label for="floatingInput">나의 궁극적인 목표</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="pro0" placeholder="우리 팀과의 약속">
+            <label for="floatingInput">우리 팀과의 약속</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="blog0" placeholder="블로그 주소">
+            <label for="floatingInput">블로그 주소</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="mbti0" placeholder="MBTI">
+            <label for="floatingInput">MBTI</label>
+        </div>
+
+        <div class="mybtn">
+            <button id="postingbtn" type="button" class="btn btn-primary">가입</button>
+            <button id="cancelbtn" type="button" class="btn btn-outline-primary">닫기</button>
+        </div>
+    </div>
+    <footer class="my-5 pt-5 text-body-secondary text-center text-small">
+        <p class="mb-1">© 2024 Team_INTP</p>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="https://github.com/xv1226">김동우</a></li>
+            <li class="list-inline-item"><a href="https://github.com/seongchankim1">김성찬</a></li>
+            <li class="list-inline-item"><a href="https://github.com/kim201621123">김현성</a></li>
+            <li class="list-inline-item"><a href="https://github.com/byeongik11">이병익</a></li>
+            <li class="list-inline-item"><a href="https://github.com/oyshrimp/">임애림</a></li>
+        </ul>
+    </footer>
+</body>
+
+
+
+</html>
