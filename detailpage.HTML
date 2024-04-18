@@ -153,6 +153,7 @@
         $("#editBtn").click(function () {
             // 수정 버튼 클릭 시 모든 textarea 활성화
             $("textarea").prop("readonly", false);
+            $('#pic0').show(); // 이미지 주소 입력란 표시
             $("#saveBtn").show();
             $(this).hide();
         });
@@ -240,7 +241,7 @@
             </div>
         </div>
         <div class="input-container">
-            <textarea id="pic0" name="opinion" cols="80" rows="4" readonly placeholder="사진 주소"></textarea><br>
+            <textarea id="pic0" style="display: none;" name="opinion" cols="80" rows="4" readonly placeholder="사진 주소"></textarea><br>
             <textarea id="advan0" name="opinion" cols="80" rows="4" readonly placeholder="이름"></textarea><br>
             <textarea id="infor0" name="opinion" cols="80" rows="4" readonly placeholder="자신의 협업 스타일 소개"></textarea><br>
             <textarea id="point0" name="opinion" cols="80" rows="4" readonly
