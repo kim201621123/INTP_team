@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>나만의 추억앨범</title>
+    <title>INTP조 소개</title>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -17,14 +18,38 @@
 
             font-family: "Gowun Dodum", sans-serif;
         }
+
         header {
-            margin: 15px auto 15px auto;
+            margin: 30px auto 30px auto;
         }
 
-        header>input {
-            margin-right: 1%;
-            height: 30%;
+        /*스크롤바*/
+        ::-webkit-scrollbar {
+            width: 10px;
         }
+
+        ::-webkit-scrollbar-track {
+            background-color: white;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: purple;
+        }
+
+        ::-webkit-scrollbar-button {
+            display: none;
+        }
+
+        ::-webkit-scrollbar-track,
+        ::-webkit-scrollbar-thumb {
+            border-radius: 5px;
+        }
+
+        .mycards::-webkit-scrollbar-thumb {
+            background-color: white;
+        }
+
+        /* 스크롤 바*/
 
         header>button {
             border-color: white;
@@ -32,22 +57,38 @@
             margin-right: 0.5%;
             height: 33.3px;
         }
-        .mytitle {
-            height: 250px;
-            color: white;
 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+        .sign {
+            color: purple;
+            background-color: transparent;
+            border: transparent;
+        }
 
-            background-image: url('https://images.unsplash.com/photo-1511992243105-2992b3fd0410?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
-            background-position: center;
-            background-size: cover;
+        .sign:hover {
+            background-color: plum;
+            border-radius: 10%;
+        }
+
+
+        .member {
+            color: plum;
+            background-color: transparent;
+            border: 1px solid purple;
+        }
+
+
+        .main {
+            height: 400px;
+            background-image: url('https://www.16personalities.com/static/images/personality-types/scenes/analysts_Logician_INTP_parenthood.svg');
+            background-position: right;
+            background-size: 50%;
+            background-repeat: no-repeat;
+            margin-bottom: 100px;
+            position: relative;
 
         }
 
-        .mytitle>button {
+        .main>button {
             width: 150px;
             height: 50px;
             color: white;
@@ -58,20 +99,27 @@
 
         }
 
-        .mycards {
-            width: 1200px;
 
+        .mycards {
+            width: 1600px;
             margin: 30px auto 0px auto;
+            padding: 0.5rem 0rem 0rem 0.5rem;
+            margin-top: 0.5rem;
+            display: flex;
+            overflow-x: auto;
+
         }
 
         .mypostingbox {
-
             width: 500px;
             margin: 30px auto 0px auto;
             padding: 20px;
-            box-shadow: 0px 0px 3px 0px blue;
+            box-shadow: 0px 0px 3px 0px purple;
+            background-color: white;
             border-radius: 5px;
-            display: none;
+            position: absolute;
+            top: 0px;
+            right: 970px;
         }
 
         .mybtn {
@@ -83,14 +131,20 @@
 
         .mybtn>button {
             margin-right: 5px;
+            background-color: purple;
+            border-color: purple;
+            color: white;
         }
     </style>
 
-    <script>    function detailAlbum(albumId) {
+    
+    <script>//페이지이동
+        function detailAlbum(albumId) {
             location.href = `detailpage.HTML?albumId=${albumId}`;
-        }</script>
+        } 
+    </script>
 
-    <script type="module">
+    <script type="module"> //파이어베이스 스크립트
 
         // Firebase SDK 라이브러리 가져오기
         // Firebase SDK 라이브러리 가져오기
@@ -116,14 +170,10 @@
         // Firebase 인스턴스 초기화
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-
-
         const auth = getAuth();
-
 
         $("#savebtn").click(async function () {
             $('#postingbox').toggle();
-
         })
 
         $("#postingbtn").click(async function () {
@@ -237,22 +287,74 @@
 
 
     </script>
+
+    <script> //스크롤 애니메이션
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById('scrollButtonback').addEventListener('click', function () {
+                const mycards = document.querySelector('.mycards');
+                const currentScrollLeft = mycards.scrollLeft;
+                const targetScrollLeft = currentScrollLeft - 200;
+                smoothScrollTo(mycards, targetScrollLeft, 500);
+            });
+
+            document.getElementById('scrollButtongo').addEventListener('click', function () {
+                const mycards = document.querySelector('.mycards');
+                const currentScrollLeft = mycards.scrollLeft;
+                const targetScrollLeft = currentScrollLeft + 200;
+                smoothScrollTo(mycards, targetScrollLeft, 500);
+            });
+        });
+
+        function smoothScrollTo(element, target, duration) {
+            const start = element.scrollLeft;
+            const startTime = performance.now();
+
+            function scrollAnimation(currentTime) {
+                const elapsedTime = currentTime - startTime;
+                const progress = Math.min(elapsedTime / duration, 1);
+                element.scrollLeft = start + (target - start) * progress;
+
+                if (progress < 1) {
+                    requestAnimationFrame(scrollAnimation);
+                }
+            }
+
+            requestAnimationFrame(scrollAnimation);
+        }
+    </script>
 </head>
 
 <body>
-    <header align="right">
-        <input type="email" id="loginemail" placeholder="이메일">
-        <input type="password" id="loginpassword" placeholder="비밀번호">
-        <button type="button" id="loginbtn">로그인</button>
-        <button type="button" id="signupbtn">회원가입</button>
+    <header style="margin: 30px 10px 70px 0px;">
+        <ul align="right">
+            <input type="email" class="member" id="loginemail" placeholder="이메일">
+            <input type="password" class="member" id="loginpassword" placeholder="비밀번호">
+            <button type="button" class="sign" id="loginbtn">로그인</button>
+            <button type="button" class="sign" id="signupbtn">회원가입</button>
+        </ul>
     </header>
-    <div class="mytitle">
-        <h1>나만의 추억앨범</h1>
-        <button id="savebtn">등록하기</button>
-
+    <div class="main">
+        <div class="p-5 mb-4 bg-body-tertiary rounded-3">
+            <div class="container-fluid py-5">
+                <h1 class="display-5 fw-bold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTP</h1>
+                <p class="col-md-8 fs-4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTP만 모인 팀</p>
+                <button style="border: none; background-color: white;" id="savebtn" type="button"><img style="height: 250px; width: 250; background-color: white; border: none;" class="btnimg" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Intp-logician.svg/800px-Intp-logician.svg.png"></button>
+            </div>
+        </div>
     </div>
-    <div class="mypostingbox" id="postingbox">
-        <div class="form-floating mb-3">
+    <div>
+        <div class="mycards">
+            <div style="flex-wrap: nowrap;" id="card" class="row row-cols-1 row-cols-md-5 g-4">
+            </div>
+        </div>
+        <div class="text-end pt-3" style="cursor: pointer; width: 1600px; margin: 0px auto 0px auto;
+        padding: 0.5rem 0rem 0rem 0.5rem; display: right;">
+            <img class="button_design" id="scrollButtonback" src="caret_left.svg" width="30" height="30">
+            <img class="button_design" id="scrollButtongo" src="caret_right.svg" width="30" height="30">
+        </div>
+    </div>
+    <div class="mypostingbox" id="postingbox" style="display: none;">
+        <div class="form-floating mb-3" >
             <input type="email" class="form-control" id="pic0" placeholder="사진">
             <label for="floatingInput">사진 주소</label>
         </div>
@@ -282,19 +384,22 @@
         </div>
 
         <div class="mybtn">
-            <button id="postingbtn" type="button" class="btn btn-primary">기록하기</button>
+            <button id="postingbtn" type="button" class="btn btn-primary">가입</button>
             <button type="button" class="btn btn-outline-primary">닫기</button>
         </div>
     </div>
-
-
-    <div class="mycards">
-        <div id="card" class="row row-cols-1 row-cols-md-5 g-4">
-
-        </div>
-    </div>
-    </div>
-    </div>
+    <footer class="my-5 pt-5 text-body-secondary text-center text-small">
+        <p class="mb-1">© 2024 Team_INTP</p>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#">김동우</a></li>
+            <li class="list-inline-item"><a href="#">김성찬</a></li>
+            <li class="list-inline-item"><a href="#">김현성</a></li>
+            <li class="list-inline-item"><a href="#">이병익</a></li>
+            <li class="list-inline-item"><a href="#">임애림 깃허브 주소받기</a></li>
+        </ul>
+    </footer>
 </body>
+
+
 
 </html>

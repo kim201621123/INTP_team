@@ -86,25 +86,21 @@
         import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         import { doc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
 
         // Firebase 구성 정보 설정
         const firebaseConfig = {
-            apiKey: "AIzaSyBd95g4iHz1a716isz96TeWfCazwjthtYQ",
-            authDomain: "sparta-43eda.firebaseapp.com",
-            projectId: "sparta-43eda",
-            storageBucket: "sparta-43eda.appspot.com",
-            messagingSenderId: "519426988653",
-            appId: "1:519426988653:web:cf2a402befcec8ab597d64",
-            measurementId: "G-WMBSTF2Q37"
+            apiKey: "AIzaSyBJs_vtHzWRouy16fhfjJA2qAvWtAaJ6gk",
+            authDomain: "sparta-d8d6c.firebaseapp.com",
+            projectId: "sparta-d8d6c",
+            storageBucket: "sparta-d8d6c.appspot.com",
+            messagingSenderId: "230382481375",
+            appId: "1:230382481375:web:40ef947ccfb472da635e6a"
         };
 
 
         // Firebase 인스턴스 초기화
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-
-        const auth = getAuth();
 
         const AlbumURL = new URLSearchParams(window.location.search);
         const albumId = AlbumURL.get('albumId');
@@ -132,72 +128,57 @@
             }
         })
 
-
+        
 
 
         $("#editBtn").click(function () {
-            $("#saveBtn").show();
-            $(this).hide();
-        });
+    $("#saveBtn").show();
+    $(this).hide();
+});
 
 
-        $("#saveBtn").click(async function () {
-            let docId = albumId;
+$("#saveBtn").click(async function () {
+    let docId = albumId;
 
-            let advanValue = $('#advan').val();
-            let inforValue = $('#infor').val();
-            let pointValue = $('#point').val();
-            let proValue = $('#pro').val();
-            let blogValue = $('#blog').val();
-            let mbtiValue = $('#mbti').val();
+    let advanValue = $('#advan').val();
+    let inforValue = $('#infor').val();
+    let pointValue = $('#point').val();
+    let proValue = $('#pro').val();
+    let blogValue = $('#blog').val();
+    let mbtiValue = $('#mbti').val();
 
 
-            await updateDoc(doc(db, "test", docId), {
-                a: advanValue,
-                b: inforValue,
-                c: pointValue,
-                d: proValue,
-                e: blogValue,
-                mbti: mbtiValue
+        await updateDoc(doc(db, "test", docId), {
+            a: advanValue, 
+            b: inforValue, 
+            c: pointValue,
+            d: proValue,
+            e: blogValue,
+            mbti: mbtiValue
 
             });
 
-            alert("수정 완료!");
-            window.location.reload();
+        alert("수정 완료!");
+        window.location.reload();
+        
 
+});
 
-        });
+$("#deleteConfirmBtn").click(function () {
+    console.log(albumId);
 
-        $("#deleteConfirmBtn").click(function () {
-            console.log(albumId);
-
-            const isDelete = confirm("정말로 삭제하시겠습니까?");
-            if (isDelete) {
-                const documentRef = doc(db, "albums", albumId);
-                deleteDoc(documentRef).then(() => {
-                    //then을 추가하여 삭제가 완료된 후 이동하게 함
-                    alert("문서 삭제가 완료되었습니다.");
-                    location.href = 'mainpage.html';
-                })
-            } else {
-                alert("문서 삭제가 취소되었습니다.");
-            }
-        });
-
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // User is signed in, see docs for a list of available properties
-                // https://firebase.google.com/docs/reference/js/auth.user
-                // ...
-                console.log('로그인 상태')
-
-
-            } else {
-                // User is signed out
-                // ...
-                console.log('로그아웃 상태')
-            }
+    const isDelete = confirm("정말로 삭제하시겠습니까?");
+    if (isDelete) {
+        const documentRef = doc(db, "albums", albumId);
+        deleteDoc(documentRef).then(() => {  
+        //then을 추가하여 삭제가 완료된 후 이동하게 함
+            alert("문서 삭제가 완료되었습니다.");
+            location.href = 'mainpage.html';
         })
+    } else {
+        alert("문서 삭제가 취소되었습니다.");
+    }
+});
 
 
     </script>
