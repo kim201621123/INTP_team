@@ -10,10 +10,35 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <style>
-        .introduce {
-            margin-top: 130px;
-            margin-left: 20px;
+        @import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
+
+        * {
+
+            font-family: "Gowun Dodum", sans-serif;
         }
+
+        /*스크롤바*/
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: white;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: purple;
+        }
+
+        ::-webkit-scrollbar-button {
+            display: none;
+        }
+
+        ::-webkit-scrollbar-track,
+        ::-webkit-scrollbar-thumb {
+            border-radius: 5px;
+        }
+
 
         .container {
             display: flex;
@@ -21,25 +46,27 @@
             align-items: flex-start;
             flex-wrap: wrap;
             padding: 20px;
-            margin-top: 150px;
+            margin-top: 90px;
             position: relative;
         }
 
         .image {
-            width: 350px;
-            height: 500px;
+            width: 300px;
+            height: 300px;
+            border-radius: 70%;
+            margin-top: 110px;
+            overflow: hidden;
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
             /* 이미지를 가운데로 정렬 */
-            margin-right: 50px;
-            margin-bottom: 150px;
             display: flex;
             /* 이미지를 가운데로 정렬하기 위해 부모 요소를 flex로 설정 */
             justify-content: center;
             /* 수평 가운데 정렬 */
             align-items: center;
             /* 수직 가운데 정렬 */
+
         }
 
         .input-container {
@@ -53,13 +80,17 @@
         }
 
         .input-container textarea[readonly] {
-            background-color: #f0f0f0;
-            color: #666;
+            background-color: transparent;
+            color: black;
         }
 
         .input-container2 textarea[readonly] {
-            background-color: #f0f0f0;
-            color: #666;
+            background-color: transparent;
+            color: black;
+        }
+
+        body {
+            overflow-x: hidden;
         }
 
 
@@ -80,16 +111,37 @@
         }
 
         .buttons {
+            background-color: purple;
+            height: 60px;
             text-align: right;
-            margin-top: 20px;
         }
+
+        
+        .buttons>button { 
+            margin: 10px;
+            color: white; 
+            background-color: transparent; 
+            border-color: white;
+            box-shadow: none;
+        }
+
+
+        .text_area {
+            resize: none;
+            background-color: transparent;
+            border: transparent;
+            margin-top: -10px;
+            border-color: transparent;
+            outline: none;
+        }
+
+
 
         /* 새로운 textarea 스타일 */
         .input-container2 {
-            width: 100px;
-            margin-right: 300px;
-            margin-top: 310px;
-
+            width: 300px;
+            margin-right: 100px;
+            margin-left: 200px;
         }
 
 
@@ -101,7 +153,6 @@
             padding: 8px;
             border: 1px solid #ccc;
             box-sizing: border-box;
-            font-family: "Nanum Gothic", sans-serif;
             font-size: 14px;
             resize: none;
             /* 크기 조정 비활성화 */
@@ -117,7 +168,6 @@
         import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         import { doc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
-
 
         // Firebase 구성 정보 설정
         const firebaseConfig = {
@@ -167,7 +217,7 @@
             }
         })
 
-        
+
 
 
         $("#editBtn").click(function () {
@@ -205,14 +255,14 @@
 
             });
 
-        alert("수정 완료!");
-        window.location.reload();
-        
+            alert("수정 완료!");
+            window.location.reload();
 
-});
 
-$("#deleteConfirmBtn").click(function () {
-    console.log(albumId);
+        });
+
+        $("#deleteConfirmBtn").click(function () {
+            console.log(albumId);
 
             const isDelete = confirm("정말로 삭제하시겠습니까?");
             if (isDelete) {
@@ -243,49 +293,63 @@ $("#deleteConfirmBtn").click(function () {
 
 
     </script>
-    <title>한잔해</title>
+    <title>introduce</title>
 </head>
 
 <body>
     <div class="buttons">
-        <button type="button" class="btn btn-primary" id="saveBtn" style="display: none;">저장하기</button>
-        <button type="button" id="editBtn" class="btn btn-warning">수정하기</button>
-        <button type="button" class="btn btn-danger" id="deleteConfirmBtn">삭제하기</button>
+        <button type="button" class="btn btn-primary" id="saveBtn" style="display: none;">
+            저장하기</button>
+        <button type="button" id="editBtn" class="btn btn-warning">
+            수정하기</button>
+        <button type="button" class="btn btn-danger" id="deleteConfirmBtn">
+            삭제하기</button>
     </div>
     <div class="container">
-        <div class="image" style="height: 410px;">
-            <div class="input-container2" style="margin-top: 400px;">
-                <div class="introduce">
-                    <p>MBTI</p>
-                    <textarea id="mbti0" style="width: 360px; height:50px; margin-top:-15px;" name="opinion" cols="45"
-                        rows="10" readonly placeholder="MBTI"></textarea><br>
-                </div>
+        <div class="input-container2">
+            <div class="image">
             </div>
+            <textarea id="mbti0"
+                style="font-size:xx-large; font-weight: bolder; text-align: center; color: black; width: 300px; height:80px; margin-top:15px; background-color: white; border-color: white;"
+                name="opinion" cols="45" rows="10" readonly placeholder="MBTI"></textarea><br>
+
         </div>
         <div class="input-container">
-            <p id="pic1" style="display: none;">사진주소</p>
-            <textarea id="pic0" style="display: none; margin-top:-10px;" name="opinion" cols="80" rows="4" readonly
-                placeholder="사진 주소"></textarea><br>
-            <p>이름</p>
-            <textarea id="advan0" style="margin-top:-10px;" name="opinion" cols="80" rows="4" readonly
-                placeholder="이름"></textarea><br>
-            <p>자신의 협업 스타일</p>
-            <textarea id="infor0" style="margin-top:-10px;" name="opinion" cols="80" rows="4" readonly
+            <p id="pic1" style="display: none; font-weight : bold;">사진주소</p>
+            <textarea class="text_area" id="pic0" style="display: none; margin-top:-10px;" name="opinion" cols="80"
+                rows="4" readonly placeholder="사진 주소"></textarea><br>
+            <p></p>
+            <textarea id="advan0" class="text_area" name="opinion" cols="80" rows="4" readonly
+                style="font-size: xx-large; font-weight: bolder;" placeholder="이름"></textarea><br>
+            <p></p>
+            <p  style="font-weight : bold; font-size: large;">자신의 협업 스타일</p>
+            <hr style="border : 0px; border-top: 5px solid purple">
+            <textarea id="infor0" class="text_area" name="opinion" cols="80" rows="4" readonly
                 placeholder="자신의 협업 스타일"></textarea><br>
-            <p>나의 궁극적인 목표</p>
-            <textarea id="point0" style="margin-top:-10px;" name="opinion" cols="80" rows="4" readonly
+            <p style="font-weight : bold; font-size: large;">나의 궁극적인 목표</p>
+            <hr style="border : 0px; border-top: 5px solid purple">
+            <textarea id="point0" class="text_area" name="opinion" cols="80" rows="4" readonly
                 placeholder="나의 궁극적인 목표"></textarea><br>
-            <p>우리 팀과의 약속</p>
-            <textarea id="pro0" style="margin-top:-10px;" name="opinion" cols="80" rows="4" readonly
+            <p style="font-weight : bold; font-size: large;">우리 팀과의 약속</p>
+            <hr style="border : 0px; border-top: 5px solid purple">
+            <textarea id="pro0" class="text_area" name="opinion" cols="80" rows="4" readonly
                 placeholder="우리 팀과의 약속"></textarea><br>
-            <p>블로그 주소</p>
-            <textarea id="blog0" style="margin-top:-10px;" name="opinion" cols="80" rows="4" readonly
+            <p style="font-weight : bold; font-size: large;">블로그 주소</p>
+            <hr style="border : 0px; border-top: 5px solid purple">
+            <textarea id="blog0" class="text_area" name="opinion" cols="80" rows="4" readonly
                 placeholder="블로그 주소"></textarea><br>
         </div>
-
-
-
     </div>
+    <footer class="my-2 pt-5 text-body-secondary text-center text-small">
+        <p class="mb-1">© 2024 Team_INTP</p>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="https://github.com/xv1226">김동우</a></li>
+            <li class="list-inline-item"><a href="https://github.com/seongchankim1">김성찬</a></li>
+            <li class="list-inline-item"><a href="https://github.com/kim201621123">김현성</a></li>
+            <li class="list-inline-item"><a href="https://github.com/byeongik11">이병익</a></li>
+            <li class="list-inline-item"><a href="https://github.com/oyshrimp/">임애림</a></li>
+        </ul>
+    </footer>
 </body>
 
 </html>
