@@ -180,6 +180,10 @@
             $('#postingbox').toggle();
         })
 
+        $("#cancelbtn").click(async function () {
+            $('#postingbox').toggle();
+        });
+
         $("#postingbtn").click(async function () {
             let pic0 = $('#pic0').val();
             let advan0 = $('#advan0').val();
@@ -389,7 +393,7 @@
 
         <div class="mybtn">
             <button id="postingbtn" type="button" class="btn btn-primary">가입</button>
-            <button type="button" class="btn btn-outline-primary">닫기</button>
+            <button id="cancelbtn" type="button" class="btn btn-outline-primary">닫기</button>
         </div>
     </div>
     <footer class="my-5 pt-5 text-body-secondary text-center text-small">
